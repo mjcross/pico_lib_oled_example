@@ -37,6 +37,8 @@ pico_sdk_init()
 
 add_executable(pico_lib_oled_example main.c )
 
+add_subdirectory(pico_lib_oled)
+
 pico_set_program_name(pico_lib_oled_example "pico_lib_oled_example")
 pico_set_program_version(pico_lib_oled_example "0.1")
 
@@ -44,9 +46,6 @@ pico_set_program_version(pico_lib_oled_example "0.1")
 pico_enable_stdio_uart(pico_lib_oled_example 1)
 pico_enable_stdio_usb(pico_lib_oled_example 0)
 
-# Add the standard library to the build
-target_link_libraries(pico_lib_oled_example
-        pico_stdlib)
 
 # Add the standard include files to the build
 target_include_directories(pico_lib_oled_example PRIVATE
@@ -55,8 +54,15 @@ target_include_directories(pico_lib_oled_example PRIVATE
 
 # Add any user requested libraries
 target_link_libraries(pico_lib_oled_example 
-        
+        pico_stdlib
+        pico_lib_oled
         )
 
 pico_add_extra_outputs(pico_lib_oled_example)
+
+# enable debug messages for CMAKE_BUILD_TYPE debug
+# see https://cmake.org/cmake/help/latest/manual/cmake-buildsystem.7.html#build-configurations
+target_compile_definitions(pico_lib_oled_example PRIVATE
+  $<$<CONFIG:Debug>:DEBUG_BUILD>
+)
 
