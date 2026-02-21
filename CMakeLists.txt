@@ -43,7 +43,7 @@ pico_set_program_name(pico_lib_oled_example "pico_lib_oled_example")
 pico_set_program_version(pico_lib_oled_example "0.1")
 
 # Modify the below lines to enable/disable output over UART/USB
-pico_enable_stdio_uart(pico_lib_oled_example 1)
+pico_enable_stdio_uart(pico_lib_oled_example 0)
 pico_enable_stdio_usb(pico_lib_oled_example 0)
 
 
