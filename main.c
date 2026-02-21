@@ -2,16 +2,26 @@
 #include "pico/stdlib.h"
 #include "lib_oled.h"
 
+#ifndef DEBUG
+#   ifdef DEBUG_BUILD
+#       define DEBUG 1
+#   else
+#       define DEBUG 0
+#   endif
+#endif
+#define debug_printf(...) do { stdio_filter_driver(&stdio_uart); if (DEBUG) fprintf(stderr, __VA_ARGS__); stdio_filter_driver(ptr_oled_stdio_driver); } while (0)
+
 int main() {
-    // NB: We aren't enabling the UART or USB, so stdout will appear only on the OLED.
-    //     To copy stdout to the other devices call stdio_init_all() and enable the
-    //     appropriate driver in CMakeLists.txt.
+    // We are enabling both the stdio driver for both the UART and our custom frame-buffer
+    // and using stdio_filter_driver() to select between them 
 
-    oled_init();
+    stdio_init_all();
+    stdio_driver_t *ptr_oled_stdio_driver = oled_init();
+    stdio_filter_driver(ptr_oled_stdio_driver);     // filter STDOUT to OLED only
 
-    // display some text
-    set_cursor_pos(0, 2);
-    printf("Hello, World\n");
+    printf("Hello, World");
+
+    debug_printf("debug message to UART only\n");
 
     // show a moving 'snake'
     int head_x = NUM_Y_PIXELS - 1, head_y = NUM_Y_PIXELS - 1, head_dx = 1, head_dy = 1;
