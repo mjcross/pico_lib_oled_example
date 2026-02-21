@@ -1,0 +1,3 @@
+[submodule "pico_lib_oled"]
+	path = pico_lib_oled
+	url = https://github.com/mjcross/pico_lib_oled
