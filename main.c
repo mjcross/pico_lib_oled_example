@@ -16,7 +16,8 @@ int main() {
     // and using stdio_filter_driver() to select between them 
 
     stdio_init_all();
-    stdio_driver_t *ptr_oled_stdio_driver = oled_init();
+    oled_init(20);                                  // initialise OLED at 20ms refresh rate
+    stdio_driver_t *ptr_oled_stdio_driver = oled_get_stdio_driver();
     stdio_filter_driver(ptr_oled_stdio_driver);     // filter STDOUT to OLED only
 
     printf("Hello, World");
